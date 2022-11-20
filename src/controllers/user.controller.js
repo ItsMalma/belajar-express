@@ -139,7 +139,7 @@ module.exports = function (router, db, jwtKey) {
         return res.status(500).json({ error: "something wrong" });
       }
       await userModel.destroy({
-        where: { email: user.email },
+        where: { id: user.id },
       });
       const userData = {
         id: parseInt(user.id),

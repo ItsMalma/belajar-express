@@ -401,7 +401,7 @@ module.exports = function (router, db, jwtKey) {
       }
 
       await todoModel.destroy({
-        where: { email: todo.id },
+        where: { id: todo.id },
       });
 
       const todoData = {
