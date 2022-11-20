@@ -61,7 +61,7 @@ module.exports = function (router, db, jwtKey) {
 
         return res.status(201).json({
           data: {
-            id: user.id,
+            id: parseInt(user.id),
             name: user.name,
             email: user.email,
             createdAt: user.createdAt,

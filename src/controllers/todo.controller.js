@@ -59,7 +59,7 @@ module.exports = function (router, db, jwtKey) {
 
         return res.status(201).json({
           data: {
-            id: todo.id,
+            id: parseInt(todo.id),
             name: todo.name,
             description: todo.description,
             completed: todo.completed,
@@ -83,7 +83,7 @@ module.exports = function (router, db, jwtKey) {
     const todosData = [];
     todos.forEach(function (todo) {
       todosData.push({
-        id: todo.id,
+        id: parseInt(todo.id),
         name: todo.name,
         description: todo.description,
         completed: todo.completed,
@@ -135,7 +135,7 @@ module.exports = function (router, db, jwtKey) {
       }
 
       const todoData = {
-        id: todo.id,
+        id: parseInt(todo.id),
         name: todo.name,
         description: todo.description,
         completed: todo.completed,
@@ -212,7 +212,7 @@ module.exports = function (router, db, jwtKey) {
       await todo.save();
 
       const todoData = {
-        id: todo.id,
+        id: parseInt(todo.id),
         name: todo.name,
         description: todo.description,
         completed: todo.completed,
@@ -405,7 +405,7 @@ module.exports = function (router, db, jwtKey) {
       });
 
       const todoData = {
-        id: todo.id,
+        id: parseInt(todo.id),
         name: todo.name,
         description: todo.description,
         completed: todo.completed,

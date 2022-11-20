@@ -20,7 +20,7 @@ module.exports = function (router, db, jwtKey) {
     const usersData = [];
     users.forEach(function (user) {
       usersData.push({
-        id: user.id,
+        id: parseInt(user.id),
         name: user.name,
       });
     });
@@ -38,7 +38,7 @@ module.exports = function (router, db, jwtKey) {
         return res.status(500).json({ error: "something wrong" });
       }
       const userData = {
-        id: user.id,
+        id: parseInt(user.id),
         name: user.name,
         email: user.email,
         createdAt: user.createdAt,
@@ -78,7 +78,7 @@ module.exports = function (router, db, jwtKey) {
           error: `user with id ${userId} is not exist`,
         });
       const userData = {
-        id: user.id,
+        id: parseInt(user.id),
         name: user.name,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
@@ -118,7 +118,7 @@ module.exports = function (router, db, jwtKey) {
       await user.save();
 
       const userData = {
-        id: user.id,
+        id: parseInt(user.id),
         name: user.name,
         email: user.email,
         createdAt: user.createdAt,
@@ -142,7 +142,7 @@ module.exports = function (router, db, jwtKey) {
         where: { email: user.email },
       });
       const userData = {
-        id: user.id,
+        id: parseInt(user.id),
         name: user.name,
         email: user.email,
         createdAt: user.createdAt,
