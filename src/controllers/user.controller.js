@@ -88,4 +88,73 @@ module.exports = function (router, db, jwtKey) {
       });
     }
   );
+
+  router.patch(
+    "/me",
+    jwtMiddleware(jwtKey, userModel),
+    expressValidator
+      .body("name")
+      .optional()
+      .isString()
+      .withMessage("field name must be a string")
+      .isLength({ min: 1, max: 128 })
+      .withMessage("field name minimum length is 1 and maximum length is 128"),
+    async function (req, res) {
+      const errors = expressValidator.validationResult(req);
+      if (!errors.isEmpty()) {
+        return res
+          .status(400)
+          .json({ errors: helperError.convertValidatorErrors(errors.array()) });
+      }
+      const reqBody = req.body;
+
+      const user = req.user;
+      if (!user) {
+        return res.status(500).json({ error: "something wrong" });
+      }
+      const updated = {};
+      if (reqBody.name) updated.name = reqBody.name;
+      const newUser = (
+        await userModel.update(updated, {
+          where: { email: user.email },
+          returning: true,
+        })
+      )[1][0].dataValues;
+
+      const userData = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+      };
+      return res.json({
+        data: userData,
+      });
+    }
+  );
+
+  router.delete(
+    "/me",
+    jwtMiddleware(jwtKey, userModel),
+    async function (req, res) {
+      const user = req.user;
+      if (!user) {
+        return res.status(500).json({ error: "something wrong" });
+      }
+      await userModel.destroy({
+        where: { email: user.email },
+      });
+      const userData = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
+      return res.json({
+        data: userData,
+      });
+    }
+  );
 };

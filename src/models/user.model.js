@@ -44,6 +44,21 @@ module.exports = function (db) {
         allowNull: true,
       },
     },
-    { tableName: "user", paranoid: true }
+    {
+      tableName: "user",
+      paranoid: true,
+      indexes: [
+        {
+          name: "user_email_unique",
+          unique: true,
+          fields: ["email"],
+          where: {
+            deletedAt: {
+              [Sequelize.Op.is]: null,
+            },
+          },
+        },
+      ],
+    }
   );
 };
