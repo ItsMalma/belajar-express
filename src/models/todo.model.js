@@ -1,31 +1,35 @@
-"use strict";
+const sequelize = require("sequelize");
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    queryInterface.createTable("todo", {
+/**
+ *
+ * @param {sequelize.Sequelize} db
+ */
+module.exports = function (db) {
+  db.define(
+    "Todo",
+    {
       id: {
-        type: Sequelize.DataTypes.BIGINT,
+        type: sequelize.DataTypes.BIGINT,
         autoIncrement: true,
         autoIncrementIdentity: true,
         primaryKey: true,
         allowNull: false,
       },
       name: {
-        type: Sequelize.DataTypes.STRING(128),
+        type: sequelize.DataTypes.STRING(128),
         allowNull: false,
       },
       description: {
-        type: Sequelize.DataTypes.STRING(256),
+        type: sequelize.DataTypes.STRING(256),
         allowNull: false,
       },
       completed: {
-        type: Sequelize.DataTypes.BOOLEAN,
+        type: sequelize.DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
       userId: {
-        type: Sequelize.DataTypes.BIGINT,
+        type: sequelize.DataTypes.BIGINT,
         allowNull: false,
         references: {
           model: "user",
@@ -34,24 +38,24 @@ module.exports = {
         onDelete: "CASCADE",
       },
       createdAt: {
-        type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW,
+        type: sequelize.DataTypes.DATE,
+        defaultValue: sequelize.DataTypes.NOW,
         allowNull: false,
       },
       updatedAt: {
-        type: Sequelize.DataTypes.DATE,
+        type: sequelize.DataTypes.DATE,
         defaultValue: null,
         allowNull: true,
       },
       deletedAt: {
-        type: Sequelize.DataTypes.DATE,
+        type: sequelize.DataTypes.DATE,
         defaultValue: null,
         allowNull: true,
       },
-    });
-  },
-
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("todo");
-  },
+    },
+    {
+      tableName: "todo",
+      paranoid: true,
+    }
+  );
 };

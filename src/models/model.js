@@ -1,4 +1,5 @@
 const sequelize = require("sequelize");
+const todoModel = require("./todo.model");
 const userModel = require("./user.model");
 
 /**
@@ -7,4 +8,5 @@ const userModel = require("./user.model");
  */
 module.exports = function (db) {
   userModel(db);
+  todoModel(db);
 };

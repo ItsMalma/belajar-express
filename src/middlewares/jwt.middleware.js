@@ -34,7 +34,7 @@ module.exports = function (jwtKey, userModel) {
         jwtid: "access",
       });
       const user = await userModel.findOne({ where: { email: token.email } });
-      if (user === null)
+      if (user === null || !user)
         return res
           .status(404)
           .json({ error: `user with email ${reqBody.email} not exist` });

@@ -1,6 +1,7 @@
 const express = require("express");
 const sequelize = require("sequelize");
 const authController = require("./auth.controller");
+const todoController = require("./todo.controller");
 const userController = require("./user.controller");
 
 /**
@@ -17,4 +18,8 @@ module.exports = function (router, db, jwtKey) {
   const usersRouter = express.Router();
   userController(usersRouter, db, jwtKey);
   router.use("/users", usersRouter);
+
+  const todosRouter = express.Router();
+  todoController(todosRouter, db, jwtKey);
+  router.use("/todos", todosRouter);
 };

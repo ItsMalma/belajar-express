@@ -54,7 +54,7 @@ module.exports = function (db) {
           fields: ["email"],
           where: {
             deletedAt: {
-              [Sequelize.Op.is]: null,
+              [sequelize.Op.is]: null,
             },
           },
         },

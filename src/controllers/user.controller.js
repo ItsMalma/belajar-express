@@ -100,6 +100,11 @@ module.exports = function (router, db, jwtKey) {
       .isLength({ min: 1, max: 128 })
       .withMessage("field name minimum length is 1 and maximum length is 128"),
     async function (req, res) {
+      const user = req.user;
+      if (!user) {
+        return res.status(500).json({ error: "something wrong" });
+      }
+
       const errors = expressValidator.validationResult(req);
       if (!errors.isEmpty()) {
         return res
@@ -108,25 +113,16 @@ module.exports = function (router, db, jwtKey) {
       }
       const reqBody = req.body;
 
-      const user = req.user;
-      if (!user) {
-        return res.status(500).json({ error: "something wrong" });
-      }
       const updated = {};
-      if (reqBody.name) updated.name = reqBody.name;
-      const newUser = (
-        await userModel.update(updated, {
-          where: { email: user.email },
-          returning: true,
-        })
-      )[1][0].dataValues;
+      if (reqBody.name) user.name = reqBody.name;
+      await user.save();
 
       const userData = {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        createdAt: newUser.createdAt,
-        updatedAt: newUser.updatedAt,
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       };
       return res.json({
         data: userData,
