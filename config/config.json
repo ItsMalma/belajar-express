@@ -1,0 +1,10 @@
+{
+  "development": {
+    "dialect": "postgres",
+    "username": "malma",
+    "password": "password",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "database": "belajar_express"
+  }
+}
